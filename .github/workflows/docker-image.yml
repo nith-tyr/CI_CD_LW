@@ -16,18 +16,18 @@ jobs:
     - uses: actions/checkout@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #- name: Run ESLint (Code Analysis)
-     # run: npm run lint  # Replace with your code analysis command
-      #continue-on-error: false  # Allow the workflow to continue even if code analysis fails
-    - name: Build the Docker image
-      run: docker buildx build . --file Dockerfile --tag sureshsss/java-docker-build-tutorial:latest
-    - name: Login to Docker Hub
-      run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-    - name: Push Docker image to Docker Hub
+    - name: Login to AWS ECR
       run: |
-        docker tag sureshsss/java-docker-build-tutorial:latest sureshsss/java-docker-build-tutorial:${GITHUB_RUN_ID}
-        docker push sureshsss/java-docker-build-tutorial:${GITHUB_RUN_ID}
-    #- name: Deploy to OpenShift
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+    - name: Get Git SHA
+      run: |
+        export GIT_SHA=$(git rev-parse --short HEAD)
+        echo "Git SHA: $GIT_SHA"
+    - name: Build the Docker image
+      run: docker buildx build . --file Dockerfile --tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/java-docker-build-tutorial:$GIT_SHA
+
+    - name: Push Docker image to AWS ECR
+      run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/sureshsss/java-docker-build-tutorial:$GIT_SHA
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
     #    oc project <OpenShift Project Name>
