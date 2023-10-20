@@ -18,16 +18,19 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Login to AWS ECR
       run: |
-        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRETACCESSKEY }}
+        aws configure set region ${{ secrets.AWS_REGION }}
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
     - name: Get Git SHA
       run: |
         export GIT_SHA=$(git rev-parse --short HEAD)
         echo "Git SHA: $GIT_SHA"
     - name: Build the Docker image
-      run: docker buildx build . --file Dockerfile --tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/java-docker-build-tutorial:$GIT_SHA
+      run: docker buildx build . --file Dockerfile --tag ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/java-docker-build-tutorial:$GIT_SHA
 
     - name: Push Docker image to AWS ECR
-      run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/sureshsss/java-docker-build-tutorial:$GIT_SHA
+      run: docker push ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/basicjava/java-docker-build-tutorial:$GIT_SHA
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
     #    oc project <OpenShift Project Name>
