@@ -1,0 +1,30 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main # Change to your target branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      run: |
+        docker --version
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+      if: runner.os == 'Linux' || runner.os == 'macOS'
+
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+      
+    - name: Build Docker Image
+      run: docker build -t your-image-name:latest .
+
+    - name: Push Docker Image
+      run: docker push your-image-name:latest
