@@ -23,33 +23,34 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SYNK_SECRET_ACCESS_KEY}}
       with:
           command: monitor
-    - name: build
-  runs-on: ubuntu-latest
-  steps:
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Download the Pipeline Scanner
-        uses: wei/curl@master
-        with:
-          args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
-      - name: Unzip the Pipeline Scanner
-        run: unzip pipeline-scan-LATEST.zip
-      - name: Run Pipeline Scanner
-        run: java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VERACODE_API_ID}}" --veracode_api_key "${{secrets.VERACODE_API_KEY}}" --file "example.jar" --fail_on_severity="Very High, High"
-      - name: Login to AWS ECR
-        run: |
-            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
-            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRETACCESSKEY }}
-            aws configure set region ${{ secrets.AWS_REGION }}
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-      - name: Get Git SHA
-        run: |
-           export GIT_SHA=$(git rev-parse --short HEAD)
+    #- name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
+     # run: mvn -B package --file ./pom.xml
+          
+    #- name: Veracode Upload And Scan
+      #uses: veracode/veracode-uploadandscan-action@0.2.6
+      #with:
+        #appname: 'VeraDemo'
+        #filepath: 'app/target/verademo.war'
+        #vid: '${{ secrets.API_ID }}'
+        #vkey: '${{ secrets.API_KEY }}'
+#       createsandbox: 'true'
+#       sandboxname: 'SANDBOXNAME'
+#       scantimeout: 0
+#       exclude: '*.js'
+#       include: '*.war'
+#       criticality: 'VeryHigh'
+    - name: Login to AWS ECR
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRETACCESSKEY }}
+        aws configure set region ${{ secrets.AWS_REGION }}
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+    - name: Get Git SHA
+      run: |
+        export GIT_SHA=$(git rev-parse --short HEAD)
         echo "Git SHA: $GIT_SHA"
-     - name: Build the Docker image
-        run: docker build . -t 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc
+    - name: Build the Docker image
+      run: docker build . -t 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc
 
     - name: Push Docker image to AWS ECR
       run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:latest
