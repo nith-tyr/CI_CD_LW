@@ -59,7 +59,7 @@ jobs:
       run: docker build . -t tsbpoc
 
     - name: Push Docker image to AWS ECR
-      run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:$GIT_SHA
+      run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:latest
 
     - name: Qualys Scanning
       run: | 
