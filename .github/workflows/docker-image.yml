@@ -17,18 +17,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x' # Choose the appropriate Python version
-
-    - name: Install dependencies
-      run: |
-        pip install detect-secrets
-
-    - name: Scan for secrets
-      run: |
-        detect-secrets scan --all-files
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     #- name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
      # run: mvn -B package --file ./pom.xml
           
