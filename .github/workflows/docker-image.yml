@@ -23,8 +23,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SYNK_SECRET_ACCESS_KEY}}
       with:
           command: monitor
-    - name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
-      run: mvn -B package --file ./pom.xml
+ ##   - name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
+ ##     run: mvn -B package --file ./pom.xml
           
     #- name: Veracode Upload And Scan
       #uses: veracode/veracode-uploadandscan-action@0.2.6
@@ -39,6 +39,7 @@ jobs:
 #       exclude: '*.js'
 #       include: '*.war'
 #       criticality: 'VeryHigh'
+
     - name: Login to AWS ECR
       run: |
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
@@ -59,6 +60,19 @@ jobs:
       run: | 
       env:
         QUALYS_API_TOKEN: ${{ secrets.QUALYS_API_TOKEN }}
+        
+    - name: Lacework CS
+      uses: lacework/lw-scanner-action@v1.2.0
+      with:
+          LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
+          LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
+          IMAGE_NAME: techallylw/vulnerable-container
+          IMAGE_TAG: v0.0.1
+          SAVE_RESULTS_IN_LACEWORK: true
+          SAVE_BUILD_REPORT: true
+          BUILD_REPORT_FILE_NAME: myreport.html
+
+      
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
     #    oc project <OpenShift Project Name>
