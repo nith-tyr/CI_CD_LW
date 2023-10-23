@@ -56,7 +56,7 @@ jobs:
         export GIT_SHA=$(git rev-parse --short HEAD)
         echo "Git SHA: $GIT_SHA"
     - name: Build the Docker image
-      run: docker build . -t tsbpoc
+      run: docker build . -t 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc
 
     - name: Push Docker image to AWS ECR
       run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:latest
