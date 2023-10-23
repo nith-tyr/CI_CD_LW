@@ -21,6 +21,8 @@ jobs:
       uses: snyk/actions/maven-3-jdk-11@master
       env:
           SNYK_TOKEN: ${{ secrets.SYNK_SECRET_ACCESS_KEY}}
+    with:
+          command: monitor
     #- name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
      # run: mvn -B package --file ./pom.xml
           
