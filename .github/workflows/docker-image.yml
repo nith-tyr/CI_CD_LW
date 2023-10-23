@@ -56,10 +56,10 @@ jobs:
         export GIT_SHA=$(git rev-parse --short HEAD)
         echo "Git SHA: $GIT_SHA"
     - name: Build the Docker image
-      run: docker buildx build . --file Dockerfile --tag ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/tsbpoc:$GIT_SHA
+      run: docker buildx build . --file Dockerfile --tag 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:$GIT_SHA
 
     - name: Push Docker image to AWS ECR
-      run: docker push ${{ secrets.AWS_ACCOUNTID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/tsbpoc:$GIT_SHA
+      run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:$GIT_SHA
 
     - name: Qualys Scanning
       run: | 
