@@ -50,10 +50,10 @@ jobs:
         export GIT_SHA=$(git rev-parse --short HEAD)
         echo "Git SHA: $GIT_SHA"
     - name: Build the Docker image
-      run: docker build . -t 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc
+      run: docker build . -t 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:$(git rev-parse --short HEAD)
 
     - name: Push Docker image to AWS ECR
-      run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:latest
+      run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:latest:$(git rev-parse --short HEAD)
 
     - name: Qualys Scanning
       run: | 
