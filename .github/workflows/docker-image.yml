@@ -23,7 +23,11 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SYNK_SECRET_ACCESS_KEY}}
       with:
           command: monitor
-    - name: Build with Maven # Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
+    - name: maven clean# Compiling the .war binary from the checked out repo source code to upload to the scanner in the next step
+      run: mvn clean
+    - name: maven build
+      run: mvn compile
+    - name: build with maven  
       run: mvn -B package --file ./pom.xml
           
     #- name: Veracode Upload And Scan
