@@ -28,7 +28,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-
     - name: build
       run: |
         sudo chmod -R 777 target
@@ -36,25 +35,16 @@ jobs:
         cd home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
         sudo chmod +r java-docker-build-1.0.0-SNAPSHOT-shaded.jar	
  
-    - name: Veracode Upload And Scan
-    - uses: actions/checkout@v2
-    
-    - name: get archive
-      uses: actions/download-artifact@v2
+    - name: Download the Pipeline Scanner
+      uses: wei/curl@master
       with:
-        name: verademo.war
-        path: .
-    - name: Veracode Upload and Scan Action Step
-      uses: veracode/veracode-uploadandscan-action@master
-      id: upload_and_scan
-      with:
-        appname: 'Verademo Inforc'
-        createprofile: true
-        version: '${{github.run_id}}'
-        filepath: 'verademo.war'
-        vid: '${{secrets.VC_SECRET}}'
-        vkey: '${{secrets.VC_KEY}}'
-        scantimeout: 15
+        args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+    - name: Unzip the Pipeline Scanner
+      run: unzip -o pipeline-scan-LATEST.zip
+    - name: Run Pipeline Scanner
+      run: |
+         sudo chmod +r /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar
+         java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{ secrets.VC_KEY }}" --veracode_api_key "${{ secrets.VC_SECRET }}" --file "/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar" --fail_on_severity="Very High, High"
 
     - name: Login to AWS ECR
       run: |
