@@ -29,23 +29,38 @@ jobs:
       with:
         java-version: 1.8
           
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
     - name: Build with Maven
-      working-directory: ./app/
-      run: mvn -B package --file app/pom.xml
+      run: mvn clean package
 
     - uses: actions/upload-artifact@v1
       with:
-        name: my-artifact
-        path: app/target/verademo.war
+        name: verademo.war
+        path: target/verademo.war
 
     - name: Veracode Upload And Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.6
+    - uses: actions/checkout@v2
+    
+    - name: get archive
+      uses: actions/download-artifact@v2
       with:
-          appname: 'VeraDemo'
-          createprofile: false
-          filepath: 'app/target/verademo.war'
-          vid: '${{ secrets.VC_SECRET }}'
-          vkey: '${{ secrets.VC_KEY }}'
+        name: verademo.war
+        path: .
+    - name: Veracode Upload and Scan Action Step
+      uses: veracode/veracode-uploadandscan-action@master
+      id: upload_and_scan
+      with:
+        appname: 'Verademo Inforc'
+        createprofile: true
+        version: '${{github.run_id}}'
+        filepath: 'verademo.war'
+        vid: '${{secrets.VC_SECRET}}'
+        vkey: '${{secrets.VC_KEY}}'
+        scantimeout: 15
 
     - name: Login to AWS ECR
       run: |
