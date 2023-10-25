@@ -39,6 +39,7 @@ jobs:
       run: unzip -o pipeline-scan-LATEST.zip
     - name: Run Pipeline Scanner
       run: |
+         ls -l /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
          cd /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
          sudo chmod +r java-docker-build-1.0.0-SNAPSHOT-shaded.jar
          java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VC_KEY}}" --veracode_api_key "${{secrets.VC_SECRET}}" --file "java-docker-build-1.0.0-SNAPSHOT-shaded.jar" --fail_on_severity="Very High, High"
