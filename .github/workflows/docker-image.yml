@@ -37,7 +37,7 @@ jobs:
       with:
           appname: 'VeraDemo'
           createprofile: false
-          filepath: 'app/target/verademo.war'
+          filepath: 'home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar'
           vid: '${{ secrets.VC_SECRET }}'
           vkey: '${{ secrets.VC_KEY }}'
 
