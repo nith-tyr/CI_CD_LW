@@ -28,20 +28,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-          
-    - name: Cache Maven packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
-    - name: Build with Maven
-      run: mvn clean package
 
-    - uses: actions/upload-artifact@v1
-      with:
-        name: verademo.war
-        path: target/verademo.war
-
+    - name: build
+      run: |
+        sudo chmod -R 777 target
+        mvn clean package
+        cd home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
+        sudo chmod +r java-docker-build-1.0.0-SNAPSHOT-shaded.jar	
+ 
     - name: Veracode Upload And Scan
     - uses: actions/checkout@v2
     
