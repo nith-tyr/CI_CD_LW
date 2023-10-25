@@ -23,7 +23,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SYNK_SECRET_ACCESS_KEY}}
       with:
           command: monitor
-          
     - name: build
       run: |
         sudo chmod -R 777 target
@@ -32,7 +31,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
- 
     - name: Download the Pipeline Scanner
       uses: wei/curl@master
       with:
@@ -42,8 +40,7 @@ jobs:
     - name: Run Pipeline Scanner
       run: |
          sudo chmod +r /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar
-         java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{ secrets.VC_KEY }}" --veracode_api_key "${{ secrets.VC_SECRET }}" --file "/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar" --fail_on_severity="Very High, High"
-
+         java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VC_KEY}}" --veracode_api_key "${{secrets.VC_SECRET}}" --file "/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar" --fail_on_severity="Very High, High"
     - name: Login to AWS ECR
       run: |
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
