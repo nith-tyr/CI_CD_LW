@@ -39,8 +39,7 @@ jobs:
           createprofile: false
           filepath: 'app/target/verademo.war'
           vid: '${{ secrets.API_ID }}'
-          vkey: '${{ secrets.API_KEY }}'
-		  
+          vkey: '${{ secrets.API_KEY }}'  
     - name: Login to AWS ECR
       run: |
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESSKEY }}
