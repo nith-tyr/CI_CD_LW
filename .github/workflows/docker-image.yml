@@ -32,14 +32,14 @@ jobs:
       with:
         java-version: 1.8
 
-    - name: Veracode Upload And Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.6
-      with:
-          appname: 'java-docker-build-1.0.0-SNAPSHOT'
-          createprofile: false
-          filepath: '/github/workspace/target/java-docker-build-1.0.0-SNAPSHOT.jar'
-          vid: '${{ secrets.VC_KEY }}'
-          vkey: '${{ secrets.VC_SECRET }}'  
+  #  - name: Veracode Upload And Scan
+  #    uses: veracode/veracode-uploadandscan-action@0.2.6
+  #    with:
+  #        appname: 'java-docker-build-1.0.0-SNAPSHOT'
+  #        createprofile: false
+  #        filepath: '/github/workspace/target/java-docker-build-1.0.0-SNAPSHOT.jar'
+  #        vid: '${{ secrets.VC_KEY }}'
+  #        vkey: '${{ secrets.VC_SECRET }}'  
           
     - name: Login to AWS ECR
       run: |
@@ -62,17 +62,17 @@ jobs:
       env:
         QUALYS_API_TOKEN: ${{ secrets.QUALYS_API_TOKEN }}
         
-    - name: Lacework CS
-      uses: lacework/lw-scanner-action@v1.2.0
-      with:
-          LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
+    - name: Scan container images for vulnerabitilies using Lacework
+      uses: timarenz/lw-scanner-action@main
+      env:
+          LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
-          IMAGE_NAME: latest
-          IMAGE_TAG: v0.0.1
-          SAVE_RESULTS_IN_LACEWORK: true
-          SAVE_BUILD_REPORT: true
-          BUILD_REPORT_FILE_NAME: myreport.html
-
+      with:
+          image_name: uzyexe/pacman
+          image_tag: latest
+          fail_if_critical_vulnerabilities_found: true
+          fail_only_if_vulnerabilities_fixable: true
+          save_build_report: true
       
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
