@@ -31,11 +31,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-      
+    - name: required permissions
+      run: |
+        sudo chmod -R 777 home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT-shaded.jar
     - name: Veracode Upload And Scan
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
-          appname: 'app'
+          appname: 'java-docker-build-1.0.0-SNAPSHOT-shaded'
           createprofile: false
           filepath: '/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT-shaded.jar'
           vid: '${{ secrets.VC_SECRET }}'
