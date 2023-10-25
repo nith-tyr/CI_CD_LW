@@ -38,8 +38,8 @@ jobs:
           appname: 'VeraDemo'
           createprofile: false
           filepath: 'app/target/verademo.war'
-          vid: '${{ secrets.API_ID }}'
-          vkey: '${{ secrets.API_KEY }}'  
+          vid: '${{ secrets.VC_SECRET }}'
+          vkey: '${{ secrets.VC_KEY }}'  
           
     - name: Login to AWS ECR
       run: |
