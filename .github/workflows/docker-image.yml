@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo chmod -R 777 target
         mvn clean package
-        cd home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
+        cd /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/
         sudo chmod +r java-docker-build-1.0.0-SNAPSHOT-shaded.jar
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
