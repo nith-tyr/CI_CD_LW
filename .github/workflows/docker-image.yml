@@ -37,7 +37,7 @@ jobs:
       with:
           appname: 'app'
           createprofile: false
-          filepath: 'home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar'
+          filepath: '/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT-shaded.jar'
           vid: '${{ secrets.VC_SECRET }}'
           vkey: '${{ secrets.VC_KEY }}'
 
