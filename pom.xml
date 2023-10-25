@@ -3,12 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.veracode</groupId>
-  <artifactId>verademo</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>verademo Maven Webapp</name>
-  <url>http://maven.apache.org</url>
 
   <groupId>com.miguno</groupId>
   <artifactId>java-docker-build</artifactId>
@@ -56,12 +50,6 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-grizzly2-http</artifactId>
-    </dependency>
-
-    <dependency>
-     <groupId>com.veracode.annotation</groupId>
-     <artifactId>VeracodeAnnotations</artifactId>
-     <version>[1.0.4,)</version>
     </dependency>
 
     <dependency>
