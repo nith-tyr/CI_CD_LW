@@ -28,8 +28,7 @@ jobs:
         sudo chmod -R 777 target
         mvn clean package
         cd /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/
-        ls -l
-        sudo chmod +r app.jar
+        sudo chmod 777 java-docker-build-1.0.0-SNAPSHOT.jar
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
@@ -37,9 +36,9 @@ jobs:
     - name: Veracode Upload And Scan
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
-          appname: 'java-docker-build-1.0.0-SNAPSHOT-shaded'
+          appname: 'java-docker-build-1.0.0-SNAPSHOT'
           createprofile: false
-          filepath: '/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar'
+          filepath: '/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT.jar'
           vid: '${{ secrets.VC_SECRET }}'
           vkey: '${{ secrets.VC_KEY }}'
 
