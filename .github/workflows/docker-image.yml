@@ -38,8 +38,8 @@ jobs:
           appname: 'java-docker-build-1.0.0-SNAPSHOT'
           createprofile: false
           filepath: '/github/workspace/target/java-docker-build-1.0.0-SNAPSHOT.jar'
-          vid: '${{ secrets.VC_SECRET }}'
-          vkey: '${{ secrets.VC_KEY }}'  
+          vid: '${{ secrets.VC_KEY }}'
+          vkey: '${{ secrets.VC_SECRET }}'  
           
     - name: Login to AWS ECR
       run: |
