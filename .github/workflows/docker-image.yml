@@ -25,7 +25,7 @@ jobs:
           command: monitor
     - name: build
       run: mvn package
-       dependecies:
+      dependecies:
          - group: com.example
          - artifcat: example
          - Version: 1.0.0
