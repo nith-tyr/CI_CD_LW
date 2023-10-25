@@ -44,8 +44,8 @@ jobs:
           appname: 'VeraDemo'
           createprofile: false
           filepath: '/home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/app.jar'
-          vid: '${{ secrets.VC_KEY }}'
-          vkey: '${{ secrets.VC_SECRET }}'
+          vid: '${{ secrets.VC_SECRET }}'
+          vkey: '${{ secrets.VC_KEY }}'
 
     - name: Login to AWS ECR
       run: |
