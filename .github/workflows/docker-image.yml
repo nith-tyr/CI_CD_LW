@@ -33,7 +33,8 @@ jobs:
         java-version: 1.8
     - name: required permissions
       run: |
-        sudo chmod -R 777 home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT-shaded.jar
+        cd home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
+        sudo chmod +r java-docker-build-1.0.0-SNAPSHOT-shaded.jar
     - name: Veracode Upload And Scan
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
