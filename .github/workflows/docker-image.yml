@@ -35,9 +35,9 @@ jobs:
     - name: Veracode Upload And Scan
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
-          appname: 'VeraDemo'
-          createprofile: false
-          filepath: 'home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT-shaded.jar'
+          appname: 'java-docker-build-1.0.0-SNAPSHOT'
+          createprofile: true
+          filepath: 'home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target/java-docker-build-1.0.0-SNAPSHOT.jar'
           vid: '${{ secrets.VC_SECRET }}'
           vkey: '${{ secrets.VC_KEY }}'  
           
