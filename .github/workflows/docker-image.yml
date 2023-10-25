@@ -36,7 +36,7 @@ jobs:
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
           appname: 'java-docker-build-1.0.0-SNAPSHOT'
-          createprofile: true
+          createprofile: false
           filepath: '/github/workspace/target/java-docker-build-1.0.0-SNAPSHOT.jar'
           vid: '${{ secrets.VC_SECRET }}'
           vkey: '${{ secrets.VC_KEY }}'  
