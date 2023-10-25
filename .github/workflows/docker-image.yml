@@ -36,9 +36,7 @@ jobs:
       with:
         args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
     - name: Unzip the Pipeline Scanner
-      run: |
-         cd /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
-         unzip -o pipeline-scan-LATEST.zip
+      run: unzip -o pipeline-scan-LATEST.zip
     - name: Run Pipeline Scanner
       run: |
          cd /home/runner/work/CI-CD-Pipeline/CI-CD-Pipeline/target
