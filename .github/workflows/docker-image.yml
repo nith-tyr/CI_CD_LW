@@ -57,10 +57,10 @@ jobs:
     - name: Push Docker image to AWS ECR
       run: docker push 966736819776.dkr.ecr.us-east-1.amazonaws.com/tsbpoc:$(git rev-parse --short HEAD)
 
-    - name: Qualys Scanning
-      run: | 
-      env:
-        QUALYS_API_TOKEN: ${{ secrets.QUALYS_API_TOKEN }}
+   # - name: Qualys Scanning
+   #  run: | 
+   #  env:
+   #    QUALYS_API_TOKEN: ${{ secrets.QUALYS_API_TOKEN }}
         
     - name: Scan container images for vulnerabitilies using Lacework
       uses: timarenz/lw-scanner-action@main
