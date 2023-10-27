@@ -72,6 +72,7 @@ jobs:
         SAVE_RESULTS_IN_LACEWORK: true
         SAVE_BUILD_REPORT: true
         BUILD_REPORT_FILE_NAME: myreport.html
+        command: monitor
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
     #    oc project <OpenShift Project Name>
