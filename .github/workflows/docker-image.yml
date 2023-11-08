@@ -71,7 +71,7 @@ jobs:
        # DEBUGGING: true
           RESULTS_IN_GITHUB_SUMMARY: true
           SCAN_LIBRARY_PACKAGES: true
-    - name:  read lacework report
+  
     # run: |
     #    oc login --server=<OpenShift Server URL> --token=${{ secrets.OPENSHIFT_API_TOKEN }}
     #    oc project <OpenShift Project Name>
